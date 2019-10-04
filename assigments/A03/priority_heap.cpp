@@ -68,6 +68,7 @@ struct Animal {
 	float priority;
 	bool validated;
 	string version;
+	float adjuster;
 
 	Animal() {
 		animal_name = "";
@@ -77,9 +78,10 @@ struct Animal {
 		priority = 0.0;
 		validated = 0;
 		version = "";
+		adjuster = 0.0;
 	}
 
-	Animal(string name, long _date, double lat, double lon, float pri, bool val, string ver) {
+	Animal(string name, long _date, double lat, double lon, float pri, bool val, string ver, float adj) {
 		animal_name = name;
 		date = _date;
 		latitude = lat;
@@ -87,6 +89,7 @@ struct Animal {
 		priority = pri;
 		validated = val;
 		version = ver;
+		adjuster = adj;
 	}
 
 	Animal(json j) {
@@ -97,6 +100,13 @@ struct Animal {
 		priority = j["priority"];
 		validated = j["validated"];
 		version = j["version"];
+		adjuster = j["adjuster"];
+		
+		//Calculated priority
+		double distCalc = 6372.8;
+		priority = (distCalc-HaversineDistance(latitude, longitude))*(adjuster/length(animal_name);
+		if(validated)
+			priority*=(-1);
 	}
 };
 
@@ -109,10 +119,10 @@ private:
 
 	/**
 	*Function: BubUp
-    *
-    *Input: index# of item to be increased
-    *
-    *Process: swaps parent and child
+ 	*
+        *Input: index# of item to be increased
+        *
+        *Process: swaps parent and child
 	*
 	*/
 	void BubUp(int i) {
@@ -126,10 +136,10 @@ private:
 
 	/**
 	*Function: BubDown
-    *
-    *Input: index# of item to be decreased
-    *
-    *Process: swaps parent and child
+        *
+        *Input: index# of item to be decreased
+        *
+        *Process: swaps parent and child
 	*
 	*/
 	void BubDown(int i) {
@@ -149,10 +159,10 @@ private:
 
 	/**
 	*Function: Swap
-    *
-    *Input: the index#'s of the animals to swap
-    *
-    *Process: Swaps two elements in a vector of Animals
+        *
+        *Input: the index#'s of the animals to swap
+        *
+        *Process: Swaps two elements in a vector of Animals
 	*
 	*/
 	void Swap(int p, int i) {
@@ -163,10 +173,10 @@ private:
 
 	/**
 	*Function: Parent
-    *
-    *Input: child index#
-    *
-    *Process: Returns parent index# of a given child
+        *
+        *Input: child index#
+        *
+        *Process: Returns parent index# of a given child
 	*
 	*Output: parent index#
 	*/
@@ -175,12 +185,12 @@ private:
 	}
 
     
-    /**
-	*Function: RChild
-    *
-    *Input: parent index#
-    *
-    *Process: Returns right child index#
+        /**
+       	*Function: RChild
+        *
+        *Input: parent index#
+        *
+        *Process: Returns right child index#
 	*
 	*Output: right child index#
 	* 
@@ -189,12 +199,12 @@ private:
 		return i * 2 + 1;
 	}
     
-    /**
+        /**
 	*Function: LChild
-    *
-    *Input: parent index#
-    *
-    *Process: Returns left child index#
+        *
+        *Input: parent index#
+        *
+        *Process: Returns left child index#
 	*
 	*Output: left child index#
 	* 
@@ -205,10 +215,10 @@ private:
 
 	/**
 	*Function: PickChild
-    *
-    *Input: index# of parent
-    *
-    *Process: See if child should be swapped
+        *
+        *Input: index# of parent
+        *
+        *Process: See if child should be swapped
 	*
 	*Output: index# to swap with
 	*/
@@ -233,10 +243,10 @@ private:
 
 	/**
 	*Function: PrintTop
-    *
-    *Input: The animal extracted
-    *
-    *Process: Prints the name and priority of the Animal 
+        *
+        *Input: The animal extracted
+        *
+        *Process: Prints the name and priority of the Animal 
 	*from the front of the heap.
 	*
 	*/
@@ -249,8 +259,8 @@ public:
 	/**
 	*Function: Heap
 	*     
-    *Process: heap constructor that makes a bucket
-    *of animals. 
+        *Process: heap constructor that makes a bucket
+        *of animals. 
 	*/
 
 	Heap() {
@@ -262,9 +272,9 @@ public:
 	*Function Insert:
 	*  
 	*Input: an animal to be put into the heap
-    *     
-    *Process: put animal into heap
-	*/
+        *     
+        *Process: put animal into heap
+   	*/
 	void Insert(Animal x){
 		if (x.validated == true) 
 			x.priority = (1.0 / x.priority);
@@ -276,9 +286,9 @@ public:
 
 	/**
 	*Function: GetTop
-    *
-    *Process: Removes the top element from heap
-    */
+        *
+        *Process: Removes the top element from heap
+        */
 	void GetTop() {
 
 		if (bucket.empty()) 
@@ -317,14 +327,14 @@ public:
 
 	/**
 	*Function: sort
-    *		
-    *Input:
-    *The array of Heaps to hold the Animals
-    *and the number of heaps
-    *
-    *Process: Sorts the Animals into an array of Heaps based
+        *		
+        *Input:
+        *The array of Heaps to hold the Animals
+        *and the number of heaps
+        *
+        *Process: Sorts the Animals into an array of Heaps based
 	*on the number of Heaps
-    * 
+        * 
 	*/
 	void sort(Heap B[], int n) {
 		int index;
