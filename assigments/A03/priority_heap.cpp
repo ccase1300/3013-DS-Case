@@ -103,8 +103,7 @@ struct Animal {
 		adjuster = j["adjuster"];
 		
 		//Calculated priority
-		double distCalc = 6372.8;
-		priority = (distCalc-HaversineDistance(latitude, longitude))*(adjuster/length(animal_name);
+		priority = (EarthRadiusKm-HaversineDistance(latitude, longitude))*(adjuster/length(animal_name);
 		if(validated)
 			priority*=(-1);
 	}
